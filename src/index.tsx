@@ -3,6 +3,37 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import createSagaMiddleware from "redux-saga";
+
+
+import machineReducer from "./store/reducers/incident";
+import { watchIncident } from "./store/sagas";
+
+const rootReducer = combineReducers({
+    machine: machineReducer
+});
+
+const sagaMiddleware = createSagaMiddleware();
+
+// create store
+const store = createStore(
+    rootReducer,
+    applyMiddleware(sagaMiddleware)
+);
+
+// run sagas 
+sagaMiddleware.run(watchIncident);
+
+const app = (
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
+);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
