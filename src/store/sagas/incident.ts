@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import axios from "../../axios-incidents";
 import * as actions from "../actions/incident";
-import { Incident, Error } from '../../shared/interfaces';
+import { ServerIncident, Error } from '../../shared/interfaces';
 import { capitalize } from '../../shared/utility';
 
 export function* fetchIncidentDetailSaga(action: any) {
@@ -14,7 +14,7 @@ export function* fetchIncidentDetailSaga(action: any) {
     try {
         // retrieve data from server
         const response = yield axios.get("/api/v2/incidents/" + action.value);
-        let incident = <Incident>response.data.incident;
+        let incident = <ServerIncident>response.data.incident;
         // receive error if occurred
         const error = response.data.error;
 
@@ -39,7 +39,17 @@ export function* fetchIncidentsSaga(action: any) {
     try {
         // retrieve data from server
         const response = yield axios.get("/api/v2/incidents");
-        const incidents = <Incident[]> response.data.incidents;
+        const incidents = response.data.incidents.map((inc: any) => {
+            return <ServerIncident> {
+                id: inc.id,
+                title: inc.title,
+                description: inc.description,
+                address: inc.address,
+                occurred_at: inc.occurred_at,
+                updated_at: inc.updated_at,
+                //media: inc.media
+            }
+        });
         const error = response.data.error;
 
         // checking error to throw an exception

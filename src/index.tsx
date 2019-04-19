@@ -9,11 +9,11 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 
-import machineReducer from "./store/reducers/incident";
+import incidentReducer from "./store/reducers/incident";
 import { watchIncident } from "./store/sagas";
 
 const rootReducer = combineReducers({
-    machine: machineReducer
+    incident: incidentReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -35,7 +35,7 @@ const app = (
     </Provider>
 );
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(app, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

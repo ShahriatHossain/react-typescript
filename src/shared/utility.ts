@@ -38,20 +38,18 @@ export const checkValidity = (value: any, rules: any) => {
     return isValid;
 }
 
-export const getMachineTableHeaderCells = () => {
+export const getIncidentTableHeaderCells = () => {
     return [
         { label: 'ID', name: 'id', isFilterAble: false, isSortAble: false },
-        { label: 'Status', name: 'status', isFilterAble: true, isSortAble: false },
-        { label: 'Machine Type', name: 'machine_type', isFilterAble: true, isSortAble: false },
-        { label: 'Longitude', name: 'longitude', isFilterAble: false, isSortAble: true },
-        { label: 'Latitude', name: 'latitude', isFilterAble: false, isSortAble: true },
-        { label: 'Last Maintenance', name: 'last_maintenance', isFilterAble: false, isSortAble: true },
-        { label: 'Install Date', name: 'install_date', isFilterAble: false, isSortAble: true },
-        { label: 'Floor', name: 'floor', isFilterAble: true, isSortAble: false }
+        { label: 'Title', name: 'title', isFilterAble: true, isSortAble: false },
+        { label: 'Description', name: 'description', isFilterAble: true, isSortAble: false },
+        { label: 'Date of Theft', name: 'occurred_at', isFilterAble: false, isSortAble: true },
+        { label: 'Date of Case', name: 'updated_at', isFilterAble: false, isSortAble: true },
+        { label: 'Location', name: 'address', isFilterAble: false, isSortAble: true }
     ]
 }
 
-export const getMachineTabs = () => {
+export const getIncidentTabs = () => {
     return [
         { label: 'Details', name: 'details' },
         { label: 'Events', name: 'events' },
@@ -60,13 +58,13 @@ export const getMachineTabs = () => {
 }
 
 export const getFilterdResult = (items: any[], val: string) => {
-    return filter(
-        items,
-        (item: any) =>
-            item.machine_type.toLowerCase().indexOf(val) !== -1 ||
-            item.status.toLowerCase().indexOf(val) !== -1 ||
-            item.floor === val
-    );
+    // return filter(
+    //     items,
+    //     (item: any) =>
+    //         item.machine_type.toLowerCase().indexOf(val) !== -1 ||
+    //         item.status.toLowerCase().indexOf(val) !== -1 ||
+    //         item.floor === val
+    // );
 }
 
 export const capitalize = (val: string) => startCase(toLower(val));

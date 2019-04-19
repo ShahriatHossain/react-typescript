@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch, Redirect } from 'react-router-dom';
+
+import Layout from './hoc/Layout/Layout';
+import Incidents from './containers/Incidents/Incidents';
+import IncidentDetail from './containers/IncidentDetail/IncidentDetail';
 
 class App extends Component {
   render() {
+    let routes = (
+      <Switch>
+        <Route path={'/incidents/:id'} exact component={IncidentDetail} />
+        <Route path="/incidents" component={Incidents} />
+        <Route path="/" exact component={Incidents} />
+        <Redirect to="/" />
+      </Switch>
+    );
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Layout>
+          {routes}
+        </Layout>
       </div>
     );
   }

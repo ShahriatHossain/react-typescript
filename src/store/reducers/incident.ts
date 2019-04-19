@@ -2,6 +2,7 @@ import { orderBy, isEmpty } from 'lodash';
 
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject, getFilterdResult } from '../../shared/utility';
+import { ServerIncident } from '../../shared/interfaces';
 
 const initialState = {
     incidents: [],

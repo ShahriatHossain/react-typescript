@@ -1,4 +1,4 @@
-export interface Incident {
+export interface ServerIncident {
     id: number;
     title: string;
     description: string;
@@ -14,5 +14,5 @@ export interface Media {
 }
 
 export interface Error {
-
+    message: string;
 }

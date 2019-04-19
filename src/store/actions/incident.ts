@@ -1,10 +1,10 @@
 import * as actionTypes from "./actionTypes";
-import { Incident, Error } from '../../shared/interfaces';
+import { ServerIncident, Error } from '../../shared/interfaces';
 
 // all action creators here
 
 // for incidents fetch success from server
-export const fetchIncidentsSuccess = (incidents: Incident[]) => ({
+export const fetchIncidentsSuccess = (incidents: ServerIncident[]) => ({
     type: actionTypes.FETCH_INCIDENTS_SUCCESS,
     incidents: incidents,
     tmpIncidents: incidents
@@ -22,13 +22,13 @@ export const fetchIncidentsStart = () => ({
 });
 
 // for incidents data fetched from server
-export const fetchIncidents = (incidents: Incident[]) => ({
+export const fetchIncidents = (incidents: ServerIncident[]) => ({
     type: actionTypes.FETCH_INCIDENTS,
     incidents
 });
 
 // incident fetch success from server
-export const fetchIncidentDetailSuccess = (incident: Incident) => ({
+export const fetchIncidentDetailSuccess = (incident: ServerIncident) => ({
     type: actionTypes.FETCH_INCIDENT_DETAIL_SUCCESS,
     incident: incident
 });
