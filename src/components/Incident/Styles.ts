@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // container
 export const Container = styled.div`
     border: 2px solid #ccc;
-    padding: 10px;
+    padding: 20px;
     margin-top: 10px;
 `;
 
@@ -19,16 +19,15 @@ export const Thumb = styled.div`
 `;
 // for title
 export const Title = styled.div`
-    font-size: 18px;
     margin-bottom: 10px;
 `;
 // for description
 export const Description = styled.div`
-    font-size: 18px;
     margin-bottom: 10px;
+    height: 20px;
+    overflow: hidden;
 `;
 // for description
 export const Address = styled.div`
-    font-size: 18px;
     margin-bottom: 10px;
 `;

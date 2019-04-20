@@ -39,7 +39,7 @@ export function* fetchIncidentsSaga(action: any) {
     try {
         // retrieve data from server
         const response = yield axios.get("/api/v2/incidents");
-        const incidents = response.data.incidents.map((inc: any) => {
+        let incidents = response.data.incidents.map((inc: any) => {
             return <ServerIncident> {
                 id: inc.id,
                 title: inc.title,
@@ -47,9 +47,11 @@ export function* fetchIncidentsSaga(action: any) {
                 address: inc.address,
                 occurred_at: inc.occurred_at,
                 updated_at: inc.updated_at,
-                //media: inc.media
+                media: inc.media
             }
         });
+        incidents = incidents.filter((inc: ServerIncident) => inc.title || inc.description);
+
         const error = response.data.error;
 
         // checking error to throw an exception

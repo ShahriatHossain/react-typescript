@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import CommonHeader from '../../components/UI/CommonHeader/CommonHeader';
-import labMicroscope from '../../assets/img/lab-microscope.png';
+import berlinPD from '../../assets/img/berlin-p-d.png';
 import { getIncidentTabs } from '../../shared/utility';
 import axios from '../../axios-incidents';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -63,7 +63,7 @@ class IncidentDetail extends Component<any, any> {
                 <CommonHeader
                     isLinkAble={true}
                     url="/incidents"
-                    icon={labMicroscope}
+                    icon={berlinPD}
                     title="Incidents" />
                 {incident}
             </div>
