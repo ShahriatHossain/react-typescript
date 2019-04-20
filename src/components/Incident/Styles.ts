@@ -20,6 +20,8 @@ export const Thumb = styled.div`
 // for title
 export const Title = styled.div`
     margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
 `;
 // for description
 export const Description = styled.div`

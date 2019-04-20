@@ -8,9 +8,10 @@ import Button from '../../../components/UI/Button/Button';
 import { Container, Form, Calendar } from './Styles';
 import { updateObject, checkValidity } from '../../../shared/utility';
 import calendar from '../../../assets/img/calendar.png';
+import moment from 'moment';
 
 class Filter extends Component<any, any> {
-    // initiate input field's properties
+    // initiate state
     state: any = {
         searchForm: {
             searchText: {
@@ -57,14 +58,53 @@ class Filter extends Component<any, any> {
             },
         },
         formIsValid: false,
-        startDate: new Date()
+        startDate: null,
+        endDate: null,
+        isFromDatePickOpen: false,
+        isToDatePickOpen: false
     }
+    // filter incidents and update url
+    filterIncidentsHandler = (event: any) => {
+        this.props.onFilterIncidents(event.target.value, this.props.history);
+    }
+    // sort incidents in asc search and update url
+    sortIncidentsHandler = (colName: string, sortType: string) => {
+        this.props.onSortIncidents(colName, sortType, this.props.history);
+    }
+    // find cases
+    searchHandler = (event: any) => {
+        event.preventDefault();
 
-    inputChangedHandler = (event: any, inputIdentifier: any) => {
+        const formData: any = {};
+        for (let formElementIdentifier in this.state.searchForm) {
+            formData[formElementIdentifier] = this.state.searchForm[formElementIdentifier].value;
+        }
 
+    }
+    // select start date
+    handleFromDateChange = (date: any) => {
+        this.inputChangedHandler('fromDate', null, moment(date).format('DD/MM/YYYY'));
+        this.handleFromDatePickOpen();
+    }
+    // select end date
+    handleToDateChange = (date: any) => {
+        this.inputChangedHandler('toDate', null, moment(date).format('DD/MM/YYYY'));
+        this.handleToDatePickOpen();
+    }
+    // open start datepicker
+    handleFromDatePickOpen = () => {
+        this.setState({ isFromDatePickOpen: !this.state.isFromDatePickOpen });
+    }
+    // open end datepicker
+    handleToDatePickOpen = () => {
+        this.setState({ isToDatePickOpen: !this.state.isToDatePickOpen });
+    }
+    // change value for input by indentifier
+    inputChangedHandler = (inputIdentifier: string, event?: any, byVal?: string) => {
+        const value = byVal ? byVal : event.target.value;
         const updatedFormElement = updateObject(this.state.searchForm[inputIdentifier], {
-            value: event.target.value,
-            valid: checkValidity(event.target.value, this.state.searchForm[inputIdentifier].validation),
+            value: value,
+            valid: checkValidity(value, this.state.searchForm[inputIdentifier].validation),
             touched: true
         });
         const updatedSearchForm = updateObject(this.state.searchForm, {
@@ -78,33 +118,27 @@ class Filter extends Component<any, any> {
         this.setState({ searchForm: updatedSearchForm, formIsValid: formIsValid });
     }
 
-    handleDatePickerChange = (date: any) => {
-        this.setState({
-            startDate: date
-        });
-    }
-
-    // filter incidents and update url
-    filterIncidentsHandler = (event: any) => {
-        this.props.onFilterIncidents(event.target.value, this.props.history);
-    }
-
-    // sort incidents in asc search and update url
-    sortIncidentsHandler = (colName: string, sortType: string) => {
-        this.props.onSortIncidents(colName, sortType, this.props.history);
-    }
-
-    searchHandler = (event: any) => {
-        event.preventDefault();
-
-        const formData: any = {};
-        for (let formElementIdentifier in this.state.searchForm) {
-            formData[formElementIdentifier] = this.state.searchForm[formElementIdentifier].value;
-        }
-
-    }
-
+    // render UI
     render() {
+        // initiate start and end datepicker
+        let fromDatePick = null;
+        let toDatePick = null;
+        // check start datepicker should open
+        if (this.state.isFromDatePickOpen)
+            fromDatePick = <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleFromDateChange}
+                dateFormat="MM/dd/yyyy h:mm aa"
+                withPortal
+                inline />
+        // check end datepicker should ope
+        if (this.state.isToDatePickOpen)
+            toDatePick = <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleToDateChange}
+                dateFormat="MM/dd/yyyy h:mm aa"
+                withPortal
+                inline />
 
         return (
             <Container>
@@ -120,7 +154,7 @@ class Filter extends Component<any, any> {
                                     invalid={!this.state.searchForm.searchText.valid}
                                     shouldValidate={this.state.searchForm.searchText.validation}
                                     touched={this.state.searchForm.searchText.touched}
-                                    changed={(event: any) => this.inputChangedHandler(event, this.state.searchForm.searchText.id)} />
+                                    changed={(event: any) => this.inputChangedHandler('searchText', event)} />
                             </Col>
                             <Col md={2}>
                                 <Input
@@ -131,10 +165,13 @@ class Filter extends Component<any, any> {
                                     invalid={!this.state.searchForm.fromDate.valid}
                                     shouldValidate={this.state.searchForm.fromDate.validation}
                                     touched={this.state.searchForm.fromDate.touched}
-                                    changed={(event: any) => this.inputChangedHandler(event, this.state.searchForm.fromDate.id)} />
+                                    changed={(event: any) => this.inputChangedHandler('fromDate', event)} />
 
                             </Col>
-                            <Col md={1}><Calendar src={calendar} /></Col>
+                            <Col md={1}>
+                                <Calendar src={calendar} onClick={this.handleFromDatePickOpen} />
+                                {fromDatePick}
+                            </Col>
                             <Col md={2}>
                                 <Input
                                     key={this.state.searchForm.toDate.id}
@@ -144,10 +181,13 @@ class Filter extends Component<any, any> {
                                     invalid={!this.state.searchForm.toDate.valid}
                                     shouldValidate={this.state.searchForm.toDate.validation}
                                     touched={this.state.searchForm.toDate.touched}
-                                    changed={(event: any) => this.inputChangedHandler(event, this.state.searchForm.toDate.id)} />
+                                    changed={(event: any) => this.inputChangedHandler('toDate', event)} />
 
                             </Col>
-                            <Col md={1}><Calendar src={calendar} /></Col>
+                            <Col md={1}>
+                                <Calendar src={calendar} onClick={this.handleToDatePickOpen} />
+                                {toDatePick}
+                            </Col>
                             <Col md={2}>
                                 <Button btnType="success" disabled={!this.state.formIsValid}>Find cases</Button>
                             </Col>

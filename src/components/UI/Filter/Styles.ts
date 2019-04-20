@@ -13,4 +13,5 @@ export const Form = styled.form`
 
 export const Calendar = styled.img`
     margin-top: 10px;
+    cursor: pointer;
 `;

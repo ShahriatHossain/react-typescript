@@ -23,3 +23,13 @@ input {
   width: 100%;
   box-sizing: border-box;
 }
+
+a {
+  color: #c89e0e;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color:#8b7013;
+  text-decoration:underline;
+}
