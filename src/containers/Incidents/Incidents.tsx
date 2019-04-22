@@ -55,9 +55,6 @@ export class Incidents extends Component<any, any> {
     render() {
         const { currentIncidents } = this.state;
 
-        // to force pagination component to be updated
-        const randKey = Math.floor((Math.random() * 2) + 1);
-
         // spinner will load while getting
         // response from server
         let incidents = <Spinner />;
@@ -93,7 +90,7 @@ export class Incidents extends Component<any, any> {
                     {incidents}
                 </Grid>
 
-                {this.props.incidents.length > 0 && (<Pagination key={randKey} totalRecords={this.props.incidents.length} pageLimit={10}
+                {this.props.incidents.length > 0 && (<Pagination key={this.props.randKey} totalRecords={this.props.incidents.length} pageLimit={10}
                     pageNeighbours={0} onPageChanged={this.onPageChanged} />)}
             </div>
 
@@ -105,7 +102,8 @@ const mapStateToProps = (state: any) => {
     return {
         incidents: state.incident.incidents,
         loading: state.incident.loading,
-        error: state.incident.error
+        error: state.incident.error,
+        randKey: state.incident.randKey
     };
 };
 

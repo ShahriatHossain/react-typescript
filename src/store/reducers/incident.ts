@@ -8,7 +8,8 @@ import { BikeIncident } from '../../shared/interfaces';
 const initialState = {
     incidents: <BikeIncident[]>[],
     tmpIncidents: <BikeIncident[]>[],
-    loading: false
+    loading: false,
+    randKey: 0
 };
 
 // all reducers here
@@ -77,8 +78,11 @@ const filterIncidents = (state: any, action: any) => {
     if (!isEmpty(action.text))
         incidents = getFilterdResult(incidents, action.text);
 
+    const randKey = Math.floor((Math.random() * 2) + 1);
+
     return updateObject(state, {
-        incidents
+        incidents,
+        randKey
     });
 };
 
