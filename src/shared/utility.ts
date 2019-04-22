@@ -60,14 +60,12 @@ export const getIncidentTabs = () => {
 }
 
 export const getFilterdResult = (items: BikeIncident[], val: string): BikeIncident[] => {
-    const filterdItems = val ? filter(
+    return filter(
         items,
         (item: BikeIncident) =>
             item.title.toLowerCase().indexOf(val) !== -1 ||
             item.description.toLowerCase().indexOf(val) !== -1
-    ) : items;
-
-    return filterdItems;
+    );
 }
 
 export const capitalize = (val: string) => startCase(toLower(val));

@@ -11,8 +11,13 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorContent from '../../components/UI/ErrorContent/ErrorContent';
 import IncidentDescribe from '../../components/IncidentDescribe/IncidentDescribe';
 
-class IncidentDetail extends Component<any, any> {
+export class IncidentDetail extends Component<any, any> {
+    // initiate to check component is mounted or not
+    _isMounted = false;
+
     componentDidMount() {
+        this._isMounted = true;
+
         // initiate incident from server
         this.loadData();
     }
@@ -21,11 +26,9 @@ class IncidentDetail extends Component<any, any> {
         this.props.onFetchIncident(this.props.match.params.id);
     }
 
-    // to dismiss error popup msg
-    errorConfirmedHandler = () => {
-        this.setState({ ...this.state, error: null });
+    componentWillUnmount() {
+        this._isMounted = false;
     }
-
 
     render() {
 

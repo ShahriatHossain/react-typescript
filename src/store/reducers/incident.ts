@@ -58,7 +58,7 @@ const fetchIncidentDetailFail = (state: any, action: any) => {
 
 // to filter incidents
 const filterIncidents = (state: any, action: any) => {
-    let incidents = { ...state.tmpIncidents };
+    let incidents = state.tmpIncidents;
 
     if (action.startDate && action.endDate) {
         // convert start and end time into timestamp
@@ -78,7 +78,7 @@ const filterIncidents = (state: any, action: any) => {
         incidents = getFilterdResult(incidents, action.text);
 
     return updateObject(state, {
-        incidents: incidents
+        incidents
     });
 };
 

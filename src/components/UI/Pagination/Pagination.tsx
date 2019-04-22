@@ -14,6 +14,8 @@ class Pagination extends Component<any, any> {
     pageLimit: number;
     pageNeighbours: number;
     totalPages: number;
+    // initiate to check component is mounted or not
+    _isMounted: boolean;
 
     constructor(props: any) {
         super(props);
@@ -22,6 +24,8 @@ class Pagination extends Component<any, any> {
 
         this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 30;
         this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
+
+        this._isMounted = true;
 
         // pageNeighbours can be: 0, 1 or 2
         this.pageNeighbours = typeof pageNeighbours === 'number'
@@ -49,7 +53,8 @@ class Pagination extends Component<any, any> {
             totalRecords: this.totalRecords
         };
 
-        this.setState({ currentPage }, () => onPageChanged(paginationData));
+        if (this._isMounted)
+            this.setState({ currentPage }, () => onPageChanged(paginationData));
     }
 
     handleClick = (page: number) => (evt: any) => {
@@ -137,6 +142,11 @@ class Pagination extends Component<any, any> {
         return range(1, totalPages);
 
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         if (!this.totalRecords || this.totalPages === 1) return null;
 

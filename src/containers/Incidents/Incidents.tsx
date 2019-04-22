@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-styled-flexboxgrid';
+import { Grid } from 'react-styled-flexboxgrid';
 
 import axios from '../../axios-incidents';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -14,11 +14,17 @@ import Incident from '../../components/Incident/Incident';
 import Pagination from '../../components/UI/Pagination/Pagination';
 import Filter from '../../components/UI/Filter/Filter';
 import TotalIncidents from '../../components/TotalIncidents/TotalIncidents';
+import NoRecord from '../../components/UI/NoRecord/NoRecord';
 
-class Incidents extends Component<any, any> {
+export class Incidents extends Component<any, any> {
+    // initiate to check component is mounted or not
+    _isMounted = false;
+
+    // initiate state
     state: any = { currentIncidents: [], currentPage: null, totalPages: null }
 
     componentDidMount() {
+        this._isMounted = true;
         // initiate data from server
         this.loadData();
     }
@@ -27,18 +33,14 @@ class Incidents extends Component<any, any> {
         this.props.onFetchIncidents(this.props.location.search);
     }
 
-    // to dismiss error popup msg
-    errorConfirmedHandler = () => {
-        this.setState({ error: null });
-    }
-
     onPageChanged = (data: any) => {
         const { currentPage, totalPages, pageLimit } = data;
 
         const offset = (currentPage - 1) * pageLimit;
         const currentIncidents = this.props.incidents.slice(offset, offset + pageLimit);
 
-        this.setState({ currentPage, currentIncidents, totalPages });
+        if (this._isMounted)
+            this.setState({ currentPage, currentIncidents, totalPages });
     }
 
     findIncidentsHandler = (event: any, text: string, startDate: string, endDate: string) => {
@@ -46,9 +48,15 @@ class Incidents extends Component<any, any> {
         this.props.onFilterIncidents(text, startDate, endDate);
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
-        const { currentIncidents, currentPage, totalPages } = this.state;
-        const totalIncidents = this.props.incidents.length;
+        const { currentIncidents } = this.state;
+
+        // to force pagination component to be updated
+        const randKey = Math.floor((Math.random() * 2) + 1);
 
         // spinner will load while getting
         // response from server
@@ -57,9 +65,9 @@ class Incidents extends Component<any, any> {
         // assign table when when got 
         // response from server
         if (!this.props.loading) {
-            incidents = currentIncidents.map((inc: BikeIncident) => (
+            incidents = this.props.incidents.length > 0 ? currentIncidents.map((inc: BikeIncident) => (
                 <Incident key={inc.id} data={inc} />
-            ));
+            )) : <NoRecord />;
 
             // if error occurs load error content
             if (this.props.error) {
@@ -81,11 +89,12 @@ class Incidents extends Component<any, any> {
                 />
                 <Filter findIncidents={this.findIncidentsHandler} />
                 <Grid>
-                    <TotalIncidents totalIncidents={totalIncidents} />
+                    <TotalIncidents totalIncidents={this.props.incidents.length} />
                     {incidents}
                 </Grid>
-                <Pagination totalRecords={totalIncidents} pageLimit={10}
-                    pageNeighbours={0} onPageChanged={this.onPageChanged} />
+
+                {this.props.incidents.length > 0 && (<Pagination key={randKey} totalRecords={this.props.incidents.length} pageLimit={10}
+                    pageNeighbours={0} onPageChanged={this.onPageChanged} />)}
             </div>
 
         );

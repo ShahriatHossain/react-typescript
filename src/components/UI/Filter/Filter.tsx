@@ -10,7 +10,10 @@ import { updateObject, checkValidity } from '../../../shared/utility';
 import calendar from '../../../assets/img/calendar.png';
 import moment from 'moment';
 
-class Filter extends Component<any, any> {
+export class Filter extends Component<any, any> {
+    // initiate to check component is mounted or not
+    _isMounted = false;
+
     // initiate state
     state: any = {
         searchForm: {
@@ -64,6 +67,10 @@ class Filter extends Component<any, any> {
         isToDatePickOpen: false
     }
 
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
     // select start date
     handleFromDateChange = (date: any) => {
         this.inputChangedHandler('fromDate', null, moment(date).format('YYYY-MM-DD'));
@@ -78,12 +85,14 @@ class Filter extends Component<any, any> {
 
     // open start datepicker
     handleFromDatePickOpen = () => {
-        this.setState({ isFromDatePickOpen: !this.state.isFromDatePickOpen });
+        if (this._isMounted)
+            this.setState({ isFromDatePickOpen: !this.state.isFromDatePickOpen });
     }
 
     // open end datepicker
     handleToDatePickOpen = () => {
-        this.setState({ isToDatePickOpen: !this.state.isToDatePickOpen });
+        if (this._isMounted)
+            this.setState({ isToDatePickOpen: !this.state.isToDatePickOpen });
     }
 
     // change value for input by indentifier
@@ -102,7 +111,13 @@ class Filter extends Component<any, any> {
         for (let inputIdentifier in updatedSearchForm) {
             formIsValid = updatedSearchForm[inputIdentifier].valid && formIsValid;
         }
-        this.setState({ searchForm: updatedSearchForm, formIsValid: formIsValid });
+
+        if (this._isMounted)
+            this.setState({ searchForm: updatedSearchForm, formIsValid: formIsValid });
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     // render UI
