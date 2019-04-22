@@ -78,7 +78,7 @@ const filterIncidents = (state: any, action: any) => {
     if (!isEmpty(action.text))
         incidents = getFilterdResult(incidents, action.text);
 
-    const randKey = Math.floor((Math.random() * 2) + 1);
+    const randKey = Math.floor((Math.random() * 100) + 1);
 
     return updateObject(state, {
         incidents,

@@ -17,7 +17,7 @@ import TotalIncidents from '../../components/TotalIncidents/TotalIncidents';
 import NoRecord from '../../components/UI/NoRecord/NoRecord';
 
 export class Incidents extends Component<any, any> {
-    // initiate to check component is mounted or not
+    // initiate flag to check component is mounted or not
     _isMounted = false;
 
     // initiate state
@@ -59,7 +59,7 @@ export class Incidents extends Component<any, any> {
         // response from server
         let incidents = <Spinner />;
 
-        // assign table when when got 
+        // assign table when got 
         // response from server
         if (!this.props.loading) {
             incidents = this.props.incidents.length > 0 ? currentIncidents.map((inc: BikeIncident) => (

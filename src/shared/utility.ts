@@ -62,10 +62,7 @@ export const getIncidentTabs = () => {
 export const getFilterdResult = (items: BikeIncident[], val: string): BikeIncident[] => {
     return filter(
         items,
-        (item: BikeIncident) =>
-            item.title.toLowerCase().indexOf(val) !== -1 ||
-            item.description.toLowerCase().indexOf(val) !== -1
-    );
+        (item: BikeIncident) => item.title.toLowerCase().indexOf(val) !== -1 );
 }
 
 export const capitalize = (val: string) => startCase(toLower(val));
