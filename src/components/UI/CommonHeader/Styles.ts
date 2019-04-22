@@ -17,6 +17,6 @@ export const Title = styled.div`
 `;
 // for subtitle
 export const SubTitle = styled.div`
-    font-size: 18px;
+    font-size: 24px;
     margin-top: -20px;
 `;

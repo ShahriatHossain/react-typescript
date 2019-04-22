@@ -1,5 +1,7 @@
 import { startCase, toLower, filter } from 'lodash';
 
+import { BikeIncident } from './interfaces';
+
 export const updateObject = (oldObject: any, updatedProperties: any) => {
     return {
         ...oldObject,
@@ -57,14 +59,31 @@ export const getIncidentTabs = () => {
     ]
 }
 
-export const getFilterdResult = (items: any[], val: string) => {
-    // return filter(
-    //     items,
-    //     (item: any) =>
-    //         item.machine_type.toLowerCase().indexOf(val) !== -1 ||
-    //         item.status.toLowerCase().indexOf(val) !== -1 ||
-    //         item.floor === val
-    // );
+export const getFilterdResult = (items: BikeIncident[], val: string): BikeIncident[] => {
+    const filterdItems = val ? filter(
+        items,
+        (item: BikeIncident) =>
+            item.title.toLowerCase().indexOf(val) !== -1 ||
+            item.description.toLowerCase().indexOf(val) !== -1
+    ) : items;
+
+    return filterdItems;
 }
 
 export const capitalize = (val: string) => startCase(toLower(val));
+
+/**
+ * Helper method for creating a range of numbers
+ * range(1, 5) => [1, 2, 3, 4, 5]
+ */
+export const range = (from: number, to: number, step: number = 1) => {
+    let i = from;
+    const range = [];
+
+    while (i <= to) {
+        range.push(i);
+        i += step;
+    }
+
+    return range;
+}

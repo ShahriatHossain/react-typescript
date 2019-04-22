@@ -1,4 +1,4 @@
-export interface ServerIncident {
+export interface BikeIncident {
     id: number;
     title: string;
     description: string;
@@ -11,8 +11,4 @@ export interface ServerIncident {
 export interface Media {
     image_url: string;
     image_url_thumb: string;
-}
-
-export interface Error {
-    message: string;
 }

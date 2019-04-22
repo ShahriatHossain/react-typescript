@@ -12,10 +12,10 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
 `;
-// for logo
-export const Thumb = styled.div`
-    width: 50px;
-    height: 50px;
+// for thumb
+export const Thumb = styled.img`
+    width: 100px;
+    height: 100px;
 `;
 // for title
 export const Title = styled.div`

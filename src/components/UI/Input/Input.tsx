@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Input.css';
 
-const input = (props) => {
+const input = (props: any) => {
     let inputElement = null;
     const inputClasses = ['inputElement'];
 
@@ -31,7 +31,7 @@ const input = (props) => {
                     className={inputClasses.join(' ')}
                     value={props.value}
                     onChange={props.changed}>
-                    {props.elementConfig.options.map(option => (
+                    {props.elementConfig.options.map((option: any) => (
                         <option key={option.value} value={option.value}>
                             {option.displayValue}
                         </option>

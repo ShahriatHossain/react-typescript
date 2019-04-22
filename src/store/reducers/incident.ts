@@ -1,14 +1,14 @@
-import { orderBy, isEmpty } from 'lodash';
+import { isEmpty, filter } from 'lodash';
+import moment from 'moment';
 
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject, getFilterdResult } from '../../shared/utility';
-import { ServerIncident } from '../../shared/interfaces';
+import { BikeIncident } from '../../shared/interfaces';
 
 const initialState = {
-    incidents: [],
-    tmpIncidents: [],
-    loading: false,
-    events: []
+    incidents: <BikeIncident[]>[],
+    tmpIncidents: <BikeIncident[]>[],
+    loading: false
 };
 
 // all reducers here
@@ -56,26 +56,29 @@ const fetchIncidentDetailFail = (state: any, action: any) => {
     });
 };
 
-// to sort incidents as asc or desc order
-const sortIncidents = (state: any, action: any) => {
-    let incidents = state.incidents;
-    incidents = orderBy(incidents, [action.colName], [action.sortType]); // Use Lodash to sort array by property
+// to filter incidents
+const filterIncidents = (state: any, action: any) => {
+    let incidents = { ...state.tmpIncidents };
+
+    if (action.startDate && action.endDate) {
+        // convert start and end time into timestamp
+        const startTime = moment(action.startDate, 'YYYY-MM-DD').unix();
+        const endTime = moment(action.endDate, 'YYYY-MM-DD').unix();
+
+        // filter by date range
+        incidents = filter(incidents, (inc: BikeIncident) => {
+            const occurredDate = moment.unix(inc.occurred_at).format('YYYY-MM-DD');
+            const occurredTime = moment(occurredDate, 'YYYY-MM-DD').unix();
+            return occurredTime >= startTime && occurredTime <= endTime;
+        });
+    }
+
+    // filter by text
+    if (!isEmpty(action.text))
+        incidents = getFilterdResult(incidents, action.text);
 
     return updateObject(state, {
         incidents: incidents
-    });
-};
-
-// to filter incidents data
-const filterIncidents = (state: any, action: any) => {
-    let machines = { ...state.tmpIncidents };
-    machines = getFilterdResult(machines, action.val)
-
-    machines = isEmpty(action.val) ?
-        state.tmpIncidents : machines;
-
-    return updateObject(state, {
-        machines: machines
     });
 };
 
@@ -85,13 +88,11 @@ const reducer = (state = initialState, action: any) => {
         case actionTypes.FETCH_INCIDENTS_START: return fetchIncidentsStart(state, action);
         case actionTypes.FETCH_INCIDENTS_SUCCESS: return fetchIncidentsSuccess(state, action);
         case actionTypes.FETCH_INCIDENTS_FAIL: return fetchIncidentsFail(state, action);
-        // to sort and filter incidents
-        case actionTypes.SORT_INCIDENTS: return sortIncidents(state, action);
-        case actionTypes.FILTER_INCIDENTS: return filterIncidents(state, action);
         // fetch incident detail from server
         case actionTypes.FETCH_INCIDENT_DETAIL_START: return fetchIncidentDetailStart(state, action);
         case actionTypes.FETCH_INCIDENT_DETAIL_FAIL: return fetchIncidentDetailFail(state, action);
         case actionTypes.FETCH_INCIDENT_DETAIL_SUCCESS: return fetchIncidentDetailSuccess(state, action);
+        case actionTypes.FILTER_INCIDENTS: return filterIncidents(state, action);
 
         default: return state;
     }

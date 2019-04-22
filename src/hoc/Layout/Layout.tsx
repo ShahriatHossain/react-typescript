@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 
-const Main = styled.main`
-    margin: 20px;
-`;
+import { Main } from './Styles';
 
 class Layout extends Component {
 

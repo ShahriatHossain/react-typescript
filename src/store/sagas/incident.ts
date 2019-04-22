@@ -1,11 +1,9 @@
-import { put, take, call } from "redux-saga/effects";
-import queryString from 'query-string';
-import moment from 'moment';
+import { put } from "redux-saga/effects";
 
 import axios from "../../axios-incidents";
 import * as actions from "../actions/incident";
-import { ServerIncident, Error } from '../../shared/interfaces';
-import { capitalize } from '../../shared/utility';
+import { BikeIncident } from '../../shared/interfaces';
+import {Error} from '../../shared/classes';
 
 export function* fetchIncidentDetailSaga(action: any) {
     // dispatch fetch incident start action
@@ -14,7 +12,12 @@ export function* fetchIncidentDetailSaga(action: any) {
     try {
         // retrieve data from server
         const response = yield axios.get("/api/v2/incidents/" + action.value);
-        let incident = <ServerIncident>response.data.incident;
+        // check response correct
+        if(!response) throw new Error('Opps, something happened.');
+
+        // casting server data
+        let incident = <BikeIncident>response.data.incident;
+
         // receive error if occurred
         const error = response.data.error;
 
@@ -39,8 +42,12 @@ export function* fetchIncidentsSaga(action: any) {
     try {
         // retrieve data from server
         const response = yield axios.get("/api/v2/incidents");
+        // check response correct
+        if(!response) throw new Error('Opps, something happened.');
+        
+        // mapping server record
         let incidents = response.data.incidents.map((inc: any) => {
-            return <ServerIncident> {
+            return <BikeIncident> {
                 id: inc.id,
                 title: inc.title,
                 description: inc.description,
@@ -50,7 +57,7 @@ export function* fetchIncidentsSaga(action: any) {
                 media: inc.media
             }
         });
-        incidents = incidents.filter((inc: ServerIncident) => inc.title || inc.description);
+        incidents = incidents.filter((inc: BikeIncident) => inc.title || inc.description);
 
         const error = response.data.error;
 
@@ -62,34 +69,8 @@ export function* fetchIncidentsSaga(action: any) {
         // dispatch fetch incidents success action with payload
         yield put(actions.fetchIncidentsSuccess(incidents));
 
-        // parsing values from query string url
-        const values = yield queryString.parse(action.values);
-
-        // dispatch filter incidents action with payload
-        yield put(actions.filterIncidents(values.filter));
-
-        // dispatch sort incidents actions by sort value from query string with payload
-        yield put(actions.sortIncidents(values.sortBy, values.sort));
-
     } catch (error) {
         // dispatch fetch incidents fail action with error payload
         yield put(actions.fetchIncidentsFail(error));
     }
 }
-
-export function* sortIncidentsSaga(action: any) {
-    // dispatch sort incident asc or desc action
-    yield put(actions.sortIncidents(action.colName, action.sortType));
-
-    // update url
-    yield action.history.push('/incidents?sort=' + action.sortType + '&sortBy=' + action.colName)
-}
-
-export function* filterIncidentsSaga(action: any) {
-    // dispatch fitler incidents action
-    yield put(actions.filterIncidents(action.val));
-
-    // update url
-    yield action.history.push('/incidents?filter=' + action.val)
-}
-

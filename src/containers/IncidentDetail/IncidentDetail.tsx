@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Grid } from 'react-styled-flexboxgrid';
 
 import CommonHeader from '../../components/UI/CommonHeader/CommonHeader';
 import berlinPD from '../../assets/img/berlin-p-d.png';
-import { getIncidentTabs } from '../../shared/utility';
 import axios from '../../axios-incidents';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/incident';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Modal from '../../components/UI/Modal/Modal';
-import { Error, ServerIncident } from '../../shared/interfaces';
+import ErrorContent from '../../components/UI/ErrorContent/ErrorContent';
+import IncidentDescribe from '../../components/IncidentDescribe/IncidentDescribe';
 
 class IncidentDetail extends Component<any, any> {
-    state = {
-        selectedTab: 'details'
-    }
-
     componentDidMount() {
         // initiate incident from server
         this.loadData();
@@ -23,13 +19,6 @@ class IncidentDetail extends Component<any, any> {
 
     loadData() {
         this.props.onFetchIncident(this.props.match.params.id);
-    }
-
-    clickTabHandler = (tabName: string) => {
-        this.setState({
-            ...this.state,
-            selectedTab: tabName
-        });
     }
 
     // to dismiss error popup msg
@@ -46,17 +35,14 @@ class IncidentDetail extends Component<any, any> {
 
         // assign table when when got 
         // response from server
-        if (!this.props.loading) {
-            incident = <span />;
-        }
+        if (!this.props.loading)
+            incident = <IncidentDescribe incident={this.props.incident} />
 
-        // if error occurs load modal
+        // if error occurs load error content
         if (this.props.error) {
-            incident = <Modal
-                show={this.props.error}
-                modalClosed={() => this.props.onFetchIncidentFail(null)}>
+            incident = <ErrorContent>
                 {this.props.error ? this.props.error.message : null}
-            </Modal>
+            </ErrorContent>
         }
         return (
             <div>
@@ -64,8 +50,12 @@ class IncidentDetail extends Component<any, any> {
                     isLinkAble={true}
                     url="/incidents"
                     icon={berlinPD}
-                    title="Incidents" />
-                {incident}
+                    title="Police Department of Berlin"
+                    subtitle="Stolen bykes"
+                />
+                <Grid>
+                    {incident}
+                </Grid>
             </div>
 
         );
@@ -75,7 +65,6 @@ class IncidentDetail extends Component<any, any> {
 
 const mapStateToProps = (state: any) => {
     return {
-        liveEvents: state.incident.events,
         incident: state.incident.incident,
         loading: state.incident.loading,
         error: state.incident.error
@@ -85,7 +74,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         onFetchIncident: (value: string) => dispatch(actions.fetchIncidentDetail(value)),
-        onFetchIncidentFail: (error: Error) => dispatch(actions.fetchIncidentDetailFail(error))
+        onFetchIncidentFail: (error: any) => dispatch(actions.fetchIncidentDetailFail(error))
     };
 };
 
