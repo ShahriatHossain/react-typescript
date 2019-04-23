@@ -33,6 +33,7 @@ export class Incidents extends Component<any, any> {
         this.props.onFetchIncidents(this.props.location.search);
     }
 
+    // when page hanged
     onPageChanged = (data: any) => {
         const { currentPage, totalPages, pageLimit } = data;
 
@@ -43,6 +44,7 @@ export class Incidents extends Component<any, any> {
             this.setState({ currentPage, currentIncidents, totalPages });
     }
 
+    // filter incidents
     findIncidentsHandler = (event: any, text: string, startDate: string, endDate: string) => {
         event.preventDefault();
         this.props.onFilterIncidents(text, startDate, endDate);

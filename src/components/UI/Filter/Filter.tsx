@@ -144,14 +144,15 @@ export class Filter extends Component<any, any> {
 
         return (
             <Container>
-                <Grid>
-                    <Row>
-                        <Form onSubmit={(event) => this.props.findIncidents(
+                <Form onSubmit={(event) => this.props.findIncidents(
                             event,
                             this.state.searchForm.searchText.value,
                             this.state.searchForm.fromDate.value,
                             this.state.searchForm.toDate.value
                         )}>
+                <Grid>
+                    <Row>
+                        
                             <Col md={4}>
                                 <Input
                                     key={this.state.searchForm.searchText.id}
@@ -198,9 +199,10 @@ export class Filter extends Component<any, any> {
                             <Col md={2}>
                                 <Button btnType="success">FIND CASES</Button>
                             </Col>
-                        </Form>
+                        
                     </Row>
                 </Grid>
+                </Form>
             </Container>
 
         )

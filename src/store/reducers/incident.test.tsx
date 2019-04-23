@@ -9,7 +9,8 @@ describe('incident reducer', () => {
         expect(reducer(undefined, {})).toEqual({
             incidents: [],
             tmpIncidents: [],
-            loading: false
+            loading: false,
+            randKey: 0
         });
     });
 
@@ -17,16 +18,19 @@ describe('incident reducer', () => {
         expect(reducer({
             incidents: [],
             tmpIncidents: [],
-            loading: false
+            loading: false,
+            randKey: 0
         }, {
                 type: actionTypes.FETCH_INCIDENTS_SUCCESS,
                 incidents: [{ title: 'hello', description: 'hello' }],
                 tmpIncidents: [{ title: 'hello', description: 'hello' }],
-                loading: false
+                loading: false,
+                randKey: 0
             })).toEqual({
                 incidents: [{ title: 'hello', description: 'hello' }],
                 tmpIncidents: [{ title: 'hello', description: 'hello' }],
-                loading: false
+                loading: false,
+                randKey: 0
             });
     });
 
@@ -34,14 +38,21 @@ describe('incident reducer', () => {
         expect(reducer({
             incidents: [],
             tmpIncidents: [],
-            loading: false
+            loading: false,
+            randKey: 0
         }, {
                 type: actionTypes.FETCH_INCIDENT_DETAIL_SUCCESS,
                 incident: {},
-                loading: false
+                incidents: [],
+                tmpIncidents: [],
+                loading: false,
+                randKey: 0
             })).toEqual({
                 incident: {},
-                loading: false
+                incidents: [],
+                tmpIncidents: [],
+                loading: false,
+                randKey: 0
             });
     });
 });

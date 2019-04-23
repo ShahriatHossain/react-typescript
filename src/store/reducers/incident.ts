@@ -78,6 +78,7 @@ const filterIncidents = (state: any, action: any) => {
     if (!isEmpty(action.text))
         incidents = getFilterdResult(incidents, action.text);
 
+    // generate random key to to be used as component key
     const randKey = Math.floor((Math.random() * 100) + 1);
 
     return updateObject(state, {

@@ -40,24 +40,6 @@ export const checkValidity = (value: any, rules: any) => {
     return isValid;
 }
 
-export const getIncidentTableHeaderCells = () => {
-    return [
-        { label: 'ID', name: 'id', isFilterAble: false, isSortAble: false },
-        { label: 'Title', name: 'title', isFilterAble: true, isSortAble: false },
-        { label: 'Description', name: 'description', isFilterAble: true, isSortAble: false },
-        { label: 'Date of Theft', name: 'occurred_at', isFilterAble: false, isSortAble: true },
-        { label: 'Date of Case', name: 'updated_at', isFilterAble: false, isSortAble: true },
-        { label: 'Location', name: 'address', isFilterAble: false, isSortAble: true }
-    ]
-}
-
-export const getIncidentTabs = () => {
-    return [
-        { label: 'Details', name: 'details' },
-        { label: 'Events', name: 'events' },
-        { label: 'Live Events', name: 'live-events' }
-    ]
-}
 
 export const getFilterdResult = (items: BikeIncident[], val: string): BikeIncident[] => {
     return filter(

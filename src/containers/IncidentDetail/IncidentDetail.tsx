@@ -18,7 +18,7 @@ export class IncidentDetail extends Component<any, any> {
     componentDidMount() {
         this._isMounted = true;
 
-        // initiate incident from server
+        // initiate incidents from server
         this.loadData();
     }
 
