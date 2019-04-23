@@ -38,6 +38,16 @@ As a police officer:
  
  -> I want to see an empty state if there are no results.
 
+## Packages Used
+Redux,
+Redux-Saga,
+Typescript
+Lodash,
+Moment,
+Moment-Timezone,
+Jest,
+Enzyme,
+Styled-Components ecosystem
 
 ## Available Scripts
 
