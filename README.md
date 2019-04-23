@@ -41,7 +41,7 @@ As a police officer:
 ## Packages Used
 Redux,
 Redux-Saga,
-Typescript
+Typescript,
 Lodash,
 Moment,
 Moment-Timezone,
