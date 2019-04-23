@@ -47,6 +47,7 @@ Moment,
 Moment-Timezone,
 Jest,
 Enzyme,
+Axios,
 Styled-Components ecosystem
 
 ## Available Scripts
