@@ -64,3 +64,10 @@ export const range = (from: number, to: number, step: number = 1) => {
 
     return range;
 }
+
+
+// generate random key
+export const genRandomKey = () => {
+    // generate random key to to be used as component key
+    return Math.floor((Math.random() * 100) + 1);
+}

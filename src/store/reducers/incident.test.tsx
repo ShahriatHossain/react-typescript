@@ -1,6 +1,10 @@
 import reducer from './incident';
 import * as actionTypes from '../actions/actionTypes';
-import { BikeIncident } from '../../shared/interfaces';
+import { genRandomKey } from '../../shared/utility';
+
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
 
 // reducers testing here
 
@@ -19,18 +23,18 @@ describe('incident reducer', () => {
             incidents: [],
             tmpIncidents: [],
             loading: false,
-            randKey: 0
+            randKey: Math.random()
         }, {
                 type: actionTypes.FETCH_INCIDENTS_SUCCESS,
                 incidents: [{ title: 'hello', description: 'hello' }],
                 tmpIncidents: [{ title: 'hello', description: 'hello' }],
                 loading: false,
-                randKey: 0
+                randKey: Math.random()
             })).toEqual({
                 incidents: [{ title: 'hello', description: 'hello' }],
                 tmpIncidents: [{ title: 'hello', description: 'hello' }],
                 loading: false,
-                randKey: 0
+                randKey: genRandomKey()
             });
     });
 

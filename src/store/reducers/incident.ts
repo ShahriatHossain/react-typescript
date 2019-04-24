@@ -2,7 +2,7 @@ import { isEmpty, filter } from 'lodash';
 import moment from 'moment';
 
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject, getFilterdResult } from '../../shared/utility';
+import { updateObject, getFilterdResult, genRandomKey } from '../../shared/utility';
 import { BikeIncident } from '../../shared/interfaces';
 
 const initialState = {
@@ -21,10 +21,13 @@ const fetchIncidentsStart = (state: any, action: any) => {
 
 // when fetch incidents success from server
 const fetchIncidentsSuccess = (state: any, action: any) => {
+    const randKey = genRandomKey();
+
     return updateObject(state, {
         incidents: action.incidents,
         tmpIncidents: action.incidents,
-        loading: false
+        loading: false,
+        randKey
     });
 };
 
@@ -79,7 +82,7 @@ const filterIncidents = (state: any, action: any) => {
         incidents = getFilterdResult(incidents, action.text);
 
     // generate random key to to be used as component key
-    const randKey = Math.floor((Math.random() * 100) + 1);
+    const randKey = genRandomKey();
 
     return updateObject(state, {
         incidents,
