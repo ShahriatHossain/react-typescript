@@ -21,7 +21,7 @@ export class Filter extends Component<any, any> {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Search case descriptions'
+                    placeholder: 'Search case title'
                 },
                 value: '',
                 validation: {
