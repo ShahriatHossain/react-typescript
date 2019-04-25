@@ -103,6 +103,6 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-MIT License
+## MIT License
 
 Copyright (c) 2019 Shahriat Hossain
