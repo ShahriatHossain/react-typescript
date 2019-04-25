@@ -5,6 +5,9 @@ Stolen bikes are a typical problem in Berlin. The Police want to be more efficie
 
 This app needs to display the list of reported bike thefts based on the Bikewise API.
 
+## DEMO
+https://bikeindex-b3100.firebaseapp.com/
+
 ## Product Requirements
 As a police officer:
 
